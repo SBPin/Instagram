@@ -1,6 +1,7 @@
 package com.example.instagram;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -8,6 +9,10 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,13 +38,28 @@ public class MainActivity extends AppCompatActivity {
               final String password = etPasswordInput.getText().toString();
                 Log.i("Main Activity", username);
                 Log.i("Main Activity", password);
+
+                login(username, password);
             }
         });
     }
 
     private void login(String username, String password){
         hideKeyboard(this);
-        //  TODO - complete later :)
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e == null) {
+                    Log.d("LoginActivity", "Login successful");
+                    final Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                    startActivity(intent);
+                    finish();
+                }   else {
+                    Log.e("LoginActivity", "Login failure");
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
 

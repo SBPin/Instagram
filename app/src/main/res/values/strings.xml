@@ -3,4 +3,5 @@
     <string name="log_in">login</string>
     <string name="promt_password">Password</string>
     <string name="promt_username">Username</string>
+    <string name="title_activity_home">HomeActivity</string>
 </resources>
