@@ -3,6 +3,7 @@ package com.example.instagram.model;
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 @ParseClassName("Post")
@@ -36,7 +37,24 @@ public class Post extends ParseObject {
         put(KEY_USER, user);
     }
 
-     public Post() {
-        super();
+    //  Can return different things to feed depending on specifications
+    public static class Query extends ParseQuery <Post> {
+        public Query() {
+            super(Post.class);
+        }
+
+        //  Retrieves only top 20 posts
+        public Query getTop() {
+            setLimit(20);
+            return this;
+        }
+
+        public Query withUser() {
+            include("user");
+            return this;
+        }
+
     }
+
+
 }
