@@ -64,7 +64,15 @@ public class HomeActivity extends AppCompatActivity {
                 hideKeyboard(HomeActivity.this);
                 String description = descriptionInput.getText().toString();
                 ParseUser user = ParseUser.getCurrentUser();
-                savePost(description, user);
+
+                //  error checking in case user tabs on submit button, or does not take a picture
+                if (photoFile == null || ivPostImage.getDrawable() == null){
+                    Log.e(APP_TAG, "No photo to submit");
+                    Toast.makeText(HomeActivity.this, "There is no photo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                savePost(description, user, photoFile);
             }
         });
 
@@ -72,9 +80,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Log.i("HomeActivity OnCreate", "before onLaunchCamera");
                 onLaunchCamera(v);
-                Log.i("HomeActivity OnCreate", "past onLaunchCamera");
 
                 //  TODO - GO BACK TO VIDEO
                 final String description = descriptionInput.getText().toString();
@@ -107,11 +113,11 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void savePost(String description, ParseUser user) {
+    private void savePost(String description, ParseUser user, File photoFile) {
         Post post = new Post();
         post.setDescription(description);
         post.setUser(user);
-        //  post.setImage();
+        post.setImage(new ParseFile(photoFile));
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -122,9 +128,9 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 Log.e(APP_TAG, "Success!");
                 descriptionInput.setText("");
+                ivPostImage.setImageResource(0);
             }
         });
-
     }
 
     private void queryPosts() {
