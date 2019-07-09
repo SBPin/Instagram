@@ -14,6 +14,9 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+/*
+LOGIN ACTIVITY
+ */
 public class MainActivity extends AppCompatActivity {
 
     EditText etUsernameInput;

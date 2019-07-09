@@ -1,5 +1,6 @@
 package com.example.instagram;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +12,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,7 +22,9 @@ import com.example.instagram.model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.io.File;
 import java.util.List;
@@ -51,6 +55,18 @@ public class HomeActivity extends AppCompatActivity {
         logOutButton = findViewById(R.id.logout);
         ivPostImage = findViewById(R.id.ivPostImage);
         btnSubmit = findViewById(R.id.btnSubmit);
+
+        //queryPosts(); TODO - TOP POSTS?
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hideKeyboard(HomeActivity.this);
+                String description = descriptionInput.getText().toString();
+                ParseUser user = ParseUser.getCurrentUser();
+                savePost(description, user);
+            }
+        });
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +103,46 @@ public class HomeActivity extends AppCompatActivity {
                 //  send user back to login activity
                 Intent i = new Intent(HomeActivity.this, MainActivity.class);
                 startActivity(i);
+            }
+        });
+    }
+
+    private void savePost(String description, ParseUser user) {
+        Post post = new Post();
+        post.setDescription(description);
+        post.setUser(user);
+        //  post.setImage();
+        post.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e != null){
+                    Log.d(APP_TAG, "ERROR WHILE SAVING");
+                    e.printStackTrace();
+                    return;
+                }
+                Log.e(APP_TAG, "Success!");
+                descriptionInput.setText("");
+            }
+        });
+
+    }
+
+    private void queryPosts() {
+        ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
+        postQuery.include(Post.KEY_USER);
+        postQuery.findInBackground(new FindCallback<Post>() {
+
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if(e != null){
+                    Log.e(APP_TAG, "Error with query");
+                    e.printStackTrace();
+                    return;
+                }
+                for (int i = 0; i<posts.size(); i++){
+                    Post post = posts.get(i);
+                    Log.d(APP_TAG, "POST: "+posts.get(i).getDescription()+" username: "+posts.get(i).getUser().getUsername());
+                }
             }
         });
     }
@@ -172,4 +228,14 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }
