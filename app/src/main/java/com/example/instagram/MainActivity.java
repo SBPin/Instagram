@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             //  continue to next activity if user previously logged in
            Intent i = new Intent(MainActivity.this, HomeActivity.class);
            startActivity(i);
-           
+
         } else {
             // displayes the signup or login screen
             setContentView(R.layout.activity_main);
