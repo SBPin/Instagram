@@ -21,7 +21,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.example.instagram.R;
 import com.example.instagram.model.Post;
 import com.parse.FindCallback;
@@ -29,7 +28,6 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
-
 import java.io.File;
 import java.util.List;
 
@@ -38,7 +36,6 @@ import static android.app.Activity.RESULT_OK;
 public class ComposeFragment extends Fragment {
 
     private EditText descriptionInput;
-    private Button refreshButton;
     private ImageView ivPostImage;
     private Button btnSubmit;
     private Button createPost;
@@ -60,7 +57,6 @@ public class ComposeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
         descriptionInput = view.findViewById(R.id.description_et);
-        refreshButton = view.findViewById(R.id.refresh_btn);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         createPost = view.findViewById(R.id.createPost);
@@ -69,7 +65,6 @@ public class ComposeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                //hideKeyboard((Activity) getContext());
                 String description = descriptionInput.getText().toString();
                 ParseUser user = ParseUser.getCurrentUser();
 
@@ -84,7 +79,6 @@ public class ComposeFragment extends Fragment {
             }
         });
 
-
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,14 +91,6 @@ public class ComposeFragment extends Fragment {
 
                 createPost(description, parseFile, user);
             }
-        });
-
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadTopPosts();
-            }
-
         });
     }
 
@@ -139,13 +125,12 @@ public class ComposeFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e == null ) {
-                    Log.d("ComposeFragment", "Create post success!"); //TODO: CHECK
+                    Log.d("ComposeFragment", "Create post success!");
                 } else {
                     e.printStackTrace();
                 }
             }
         });
-
     }
 
     private void loadTopPosts() {
@@ -181,7 +166,6 @@ public class ComposeFragment extends Fragment {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
         // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
         if (intent.resolveActivity(getContext().getPackageManager()) != null) {
             // Start the image capture intent to take photo
             startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
@@ -218,7 +202,6 @@ public class ComposeFragment extends Fragment {
             }
         }
     }
-
 
     public static void hideKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);

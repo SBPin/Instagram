@@ -4,4 +4,5 @@
     <string name="promt_password">Password</string>
     <string name="promt_username">Username</string>
     <string name="title_activity_home">HomeActivity</string>
+    <string name="caption_here">\Write a caption here\</string>
 </resources>
