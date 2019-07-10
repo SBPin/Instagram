@@ -38,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
     private Button logOutButton;
     private ImageView ivPostImage;
     private Button btnSubmit;
+    private Button createPost;
 
     public final String APP_TAG = "HomeActivity";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -55,6 +56,7 @@ public class HomeActivity extends AppCompatActivity {
         logOutButton = findViewById(R.id.logout);
         ivPostImage = findViewById(R.id.ivPostImage);
         btnSubmit = findViewById(R.id.btnSubmit);
+        createPost = findViewById(R.id.createPost);
 
         //queryPosts(); TODO - TOP POSTS?
 
@@ -79,15 +81,20 @@ public class HomeActivity extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 onLaunchCamera(v);
 
-                //  TODO - GO BACK TO VIDEO
+            }
+        });
+
+        createPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
                 final String description = descriptionInput.getText().toString();
                 final ParseUser user = ParseUser.getCurrentUser();
+                final ParseFile parseFile = new ParseFile(photoFile);
 
-                //  final File file = new File(imagePath);
-
+                createPost(description, parseFile, user);
             }
         });
 
@@ -133,28 +140,22 @@ public class HomeActivity extends AppCompatActivity {
         });
     }
 
-    private void queryPosts() {
-        ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
-        postQuery.include(Post.KEY_USER);
-        postQuery.findInBackground(new FindCallback<Post>() {
+    private void createPost(String description, ParseFile imageFile, ParseUser user) {
+        final Post newPost = new Post();
+        newPost.setDescription(description);
+        newPost.setImage(imageFile);
+        newPost.setUser(user);
 
+        newPost.saveInBackground(new SaveCallback() {
             @Override
-            public void done(List<Post> posts, ParseException e) {
-                if(e != null){
-                    Log.e(APP_TAG, "Error with query");
+            public void done(ParseException e) {
+                if (e == null ) {
+                    Log.d("HomeActivity", "Create post success!");
+                } else {
                     e.printStackTrace();
-                    return;
-                }
-                for (int i = 0; i<posts.size(); i++){
-                    Post post = posts.get(i);
-                    Log.d(APP_TAG, "POST: "+posts.get(i).getDescription()+" username: "+posts.get(i).getUser().getUsername());
                 }
             }
         });
-    }
-
-    private void createPost(String description, ParseFile imageFile, ParseUser user) {
-
     }
 
     private void loadTopPosts() {
@@ -177,8 +178,28 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
+
+    private void queryPosts() {
+        ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
+        postQuery.include(Post.KEY_USER);
+        postQuery.findInBackground(new FindCallback<Post>() {
+
+            @Override
+            public void done(List<Post> posts, ParseException e) {
+                if(e != null){
+                    Log.e(APP_TAG, "Error with query");
+                    e.printStackTrace();
+                    return;
+                }
+                for (int i = 0; i<posts.size(); i++){
+                    Post post = posts.get(i);
+                    Log.d(APP_TAG, "POST: "+posts.get(i).getDescription()+" username: "+posts.get(i).getUser().getUsername());
+                }
+            }
+        });
+    }
+
 
     public void onLaunchCamera(View view) {
         // create Intent to take a picture and return control to the calling application
@@ -187,8 +208,6 @@ public class HomeActivity extends AppCompatActivity {
         photoFile = getPhotoFileUri(photoFileName);
 
         // wrap File object into a content provider
-        // required for API >= 24
-        // See https://guides.codepath.com/android/Sharing-Content-with-Intents#sharing-files-with-api-24-or-higher
         Uri fileProvider = FileProvider.getUriForFile(HomeActivity.this, "com.codepath.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
 
@@ -203,8 +222,6 @@ public class HomeActivity extends AppCompatActivity {
     // Returns the File for a photo stored on disk given the fileName
     public File getPhotoFileUri(String fileName) {
         // Get safe storage directory for photos
-        // Use `getExternalFilesDir` on Context to access package-specific directories.
-        // This way, we don't need to request external read/write runtime permissions.
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
 
         // Create the storage directory if it does not exist
