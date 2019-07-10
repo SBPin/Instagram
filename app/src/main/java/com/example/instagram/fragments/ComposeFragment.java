@@ -1,5 +1,6 @@
 package com.example.instagram.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,12 +16,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.instagram.MainActivity;
 import com.example.instagram.R;
 import com.example.instagram.model.Post;
 import com.parse.FindCallback;
@@ -37,12 +38,11 @@ import static android.app.Activity.RESULT_OK;
 public class ComposeFragment extends Fragment {
 
     private EditText descriptionInput;
-    private Button createButton;
     private Button refreshButton;
     private ImageView ivPostImage;
     private Button btnSubmit;
     private Button createPost;
-    private Button logOutButton;
+
 
     public final String APP_TAG = "ComposeFragment";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -58,20 +58,18 @@ public class ComposeFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+
         descriptionInput = view.findViewById(R.id.description_et);
-        createButton = view.findViewById(R.id.create_btn);
         refreshButton = view.findViewById(R.id.refresh_btn);
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         createPost = view.findViewById(R.id.createPost);
-        logOutButton = view.findViewById(R.id.logout);
-
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //hideKeyboard((Activity) getContext());
                 String description = descriptionInput.getText().toString();
                 ParseUser user = ParseUser.getCurrentUser();
 
@@ -86,17 +84,12 @@ public class ComposeFragment extends Fragment {
             }
         });
 
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onLaunchCamera(v);
-
-            }
-        });
 
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                onLaunchCamera(v);
 
                 final String description = descriptionInput.getText().toString();
                 final ParseUser user = ParseUser.getCurrentUser();
@@ -112,18 +105,6 @@ public class ComposeFragment extends Fragment {
                 loadTopPosts();
             }
 
-        });
-
-        logOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-
-                //  send user back to login activity
-                Intent i = new Intent(getContext(), MainActivity.class);
-                startActivity(i);
-            }
         });
     }
 
@@ -148,6 +129,7 @@ public class ComposeFragment extends Fragment {
     }
 
     private void createPost(String description, ParseFile imageFile, ParseUser user) {
+
         final Post newPost = new Post();
         newPost.setDescription(description);
         newPost.setImage(imageFile);
@@ -157,12 +139,13 @@ public class ComposeFragment extends Fragment {
             @Override
             public void done(ParseException e) {
                 if (e == null ) {
-                    Log.d("HomeActivity", "Create post success!");
+                    Log.d("ComposeFragment", "Create post success!"); //TODO: CHECK
                 } else {
                     e.printStackTrace();
                 }
             }
         });
+
     }
 
     private void loadTopPosts() {
@@ -175,7 +158,7 @@ public class ComposeFragment extends Fragment {
             public void done(List<Post> objects, ParseException e) {
                 if(e == null){
                     for(int i = 0; i < objects.size(); i++){
-                        Log.d("HomeActivity", "Post["+i+"] = "
+                        Log.d("ComposeFragment", "Post["+i+"] = "
                                 + objects.get(i).getDescription()
                                 + "\nusername = "+objects.get(i).getUser().getUsername()
                         );
@@ -186,28 +169,6 @@ public class ComposeFragment extends Fragment {
             }
         });
     }
-
-    /*
-    private void queryPosts() {
-        ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
-        postQuery.include(Post.KEY_USER);
-        postQuery.findInBackground(new FindCallback<Post>() {
-
-            @Override
-            public void done(List<Post> posts, ParseException e) {
-                if(e != null){
-                    Log.e(APP_TAG, "Error with query");
-                    e.printStackTrace();
-                    return;
-                }
-                for (int i = 0; i<posts.size(); i++){
-                    Post post = posts.get(i);
-                    Log.d(APP_TAG, "POST: "+posts.get(i).getDescription()+" username: "+posts.get(i).getUser().getUsername());
-                }
-            }
-        });
-    }
-    */
 
     public void onLaunchCamera(View view) {
         // create Intent to take a picture and return control to the calling application
@@ -258,4 +219,15 @@ public class ComposeFragment extends Fragment {
         }
     }
 
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }

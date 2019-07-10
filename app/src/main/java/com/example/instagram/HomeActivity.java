@@ -1,6 +1,5 @@
 package com.example.instagram;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -8,11 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.instagram.fragments.ComposeFragment;
+import com.example.instagram.fragments.PostsFragment;
+import com.example.instagram.fragments.ProfileFragment;
 
 import java.io.File;
 
@@ -40,8 +39,7 @@ public class HomeActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
-                        //  TODO: swap fragment here
-                        fragment = new ComposeFragment();
+                        fragment = new PostsFragment();
                         Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.action_compose:
@@ -50,8 +48,7 @@ public class HomeActivity extends AppCompatActivity {
                         break;
                     case R.id.action_profile:
                     default:
-                        //  TODO: swap fragment here
-                        fragment = new ComposeFragment();
+                        fragment = new ProfileFragment();
                         Toast.makeText(HomeActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -59,17 +56,7 @@ public class HomeActivity extends AppCompatActivity {
                 return true;
             }
         });
-    }
 
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
     }
 }
