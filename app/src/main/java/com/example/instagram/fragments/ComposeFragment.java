@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.instagram.MainActivity;
 import com.example.instagram.R;
 import com.example.instagram.model.Post;
 import com.parse.FindCallback;
@@ -41,6 +42,7 @@ public class ComposeFragment extends Fragment {
     private ImageView ivPostImage;
     private Button btnSubmit;
     private Button createPost;
+    private Button logOutButton;
 
     public final String APP_TAG = "ComposeFragment";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -64,6 +66,7 @@ public class ComposeFragment extends Fragment {
         ivPostImage = view.findViewById(R.id.ivPostImage);
         btnSubmit = view.findViewById(R.id.btnSubmit);
         createPost = view.findViewById(R.id.createPost);
+        logOutButton = view.findViewById(R.id.logout);
 
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +113,18 @@ public class ComposeFragment extends Fragment {
                 loadTopPosts();
             }
 
+        });
+
+        logOutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+
+                //  send user back to login activity
+                Intent i = new Intent(getContext(), MainActivity.class);
+                startActivity(i);
+            }
         });
     }
 

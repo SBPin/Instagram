@@ -1,7 +1,6 @@
 package com.example.instagram;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -9,18 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.Toast;
-
-import com.parse.ParseUser;
 
 import java.io.File;
 
 public class HomeActivity extends AppCompatActivity {
 
-    //private static final String imagePath ;
-
-    private Button logOutButton;
     private BottomNavigationView bottomNavigationView;
 
     public final String APP_TAG = "HomeActivity";
@@ -33,21 +26,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        logOutButton = findViewById(R.id.logout);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-
-        logOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ParseUser.logOut();
-                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-
-                //  send user back to login activity
-                Intent i = new Intent(HomeActivity.this, MainActivity.class);
-                startActivity(i);
-            }
-        });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
