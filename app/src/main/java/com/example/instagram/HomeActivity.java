@@ -8,9 +8,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -40,6 +43,8 @@ public class HomeActivity extends AppCompatActivity {
     private Button btnSubmit;
     private Button createPost;
 
+    private BottomNavigationView bottomNavigationView;
+
     public final String APP_TAG = "HomeActivity";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
@@ -57,6 +62,8 @@ public class HomeActivity extends AppCompatActivity {
         ivPostImage = findViewById(R.id.ivPostImage);
         btnSubmit = findViewById(R.id.btnSubmit);
         createPost = findViewById(R.id.createPost);
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         //queryPosts(); TODO - TOP POSTS?
 
@@ -116,6 +123,25 @@ public class HomeActivity extends AppCompatActivity {
                 //  send user back to login activity
                 Intent i = new Intent(HomeActivity.this, MainActivity.class);
                 startActivity(i);
+            }
+        });
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.action_home:
+                        Toast.makeText(HomeActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_compose:
+                        Toast.makeText(HomeActivity.this, "Compose", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.action_profile:
+                    default:
+                        Toast.makeText(HomeActivity.this, "Profile!", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
             }
         });
     }
