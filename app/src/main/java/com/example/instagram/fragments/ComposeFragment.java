@@ -50,7 +50,6 @@ public class ComposeFragment extends Fragment {
     File photoFile;
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -258,6 +257,5 @@ public class ComposeFragment extends Fragment {
             }
         }
     }
-
 
 }
