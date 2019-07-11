@@ -14,6 +14,7 @@ public class Post extends ParseObject implements Parcelable {
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
     public static final String KEY_CREATED_AT = "createdAt";
+    public static final String KEY_NUMBER_OF_LIKES = "numLikes";
 
     public Post(){}
 
@@ -24,6 +25,10 @@ public class Post extends ParseObject implements Parcelable {
     public void setDescription(String description) {
         put(KEY_DESCRIPTION, description);
     }
+
+    public Integer getNumLikes() { return getInt(KEY_NUMBER_OF_LIKES); }
+
+    public void setNumLikes(Integer i) { put(KEY_NUMBER_OF_LIKES, i);}
 
     public ParseFile getImage(){
         return getParseFile(KEY_IMAGE);

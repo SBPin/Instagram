@@ -1,6 +1,5 @@
 package com.example.instagram.fragments;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,11 +15,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import com.example.instagram.R;
 import com.example.instagram.model.Post;
 import com.parse.FindCallback;
@@ -28,6 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
 import java.io.File;
 import java.util.List;
 
@@ -74,7 +74,6 @@ public class ComposeFragment extends Fragment {
                     Toast.makeText(getContext(), "There is no photo", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 savePost(description, user, photoFile);
             }
         });
@@ -84,7 +83,6 @@ public class ComposeFragment extends Fragment {
             public void onClick(View v) {
 
                 onLaunchCamera(v);
-
                 final String description = descriptionInput.getText().toString();
                 final ParseUser user = ParseUser.getCurrentUser();
                 final ParseFile parseFile = new ParseFile(photoFile);
@@ -98,6 +96,7 @@ public class ComposeFragment extends Fragment {
         Post post = new Post();
         post.setDescription(description);
         post.setUser(user);
+        post.setNumLikes(0);
         post.setImage(new ParseFile(photoFile));
         post.saveInBackground(new SaveCallback() {
             @Override
@@ -120,6 +119,7 @@ public class ComposeFragment extends Fragment {
         newPost.setDescription(description);
         newPost.setImage(imageFile);
         newPost.setUser(user);
+        newPost.setNumLikes(0);
 
         newPost.saveInBackground(new SaveCallback() {
             @Override
@@ -201,16 +201,5 @@ public class ComposeFragment extends Fragment {
                 Toast.makeText(getContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

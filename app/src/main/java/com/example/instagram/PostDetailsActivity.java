@@ -22,6 +22,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     TextView tvDescription;
     TextView tvUser;
     TextView tvCreatedAt;
+    TextView numLikes;
     ImageView ivImage;
 
     @Override

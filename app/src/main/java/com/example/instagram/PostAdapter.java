@@ -50,10 +50,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private TextView tvHandle;
         private ImageView ivImage;
+        private ImageView ivHeart;
+        private TextView tvHandle;
         private TextView  tvDescription;
         private TextView  tvTimeCreated;
+        private TextView  numLikes;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,7 +63,26 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvTimeCreated = itemView.findViewById(R.id.timeCreated);
+            numLikes = itemView.findViewById(R.id.numLikes);
+            ivHeart = itemView.findViewById(R.id.likeImage);
             itemView.setOnClickListener(this);
+
+            ivHeart.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    ivHeart.setImageResource(R.drawable.ufi_heart_active);
+
+                    int position = getAdapterPosition();
+                    Post post = posts.get(position);
+
+                    int curNumLikes = post.getNumLikes();
+                    post.setNumLikes(curNumLikes+1);
+                    //  Increment like count
+
+                    notifyDataSetChanged();
+                }
+            });
         }
 
         @Override
@@ -89,6 +110,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
             tvDescription.setText(post.getDescription());
             tvTimeCreated.setText(getRelativeTimeAgo(String.valueOf(post.getCreatedAt())));
+            numLikes.setText((Integer.toString(post.getNumLikes())));
         }
     }
 

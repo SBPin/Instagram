@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                     final String password = etPasswordInput.getText().toString();
                     Log.i("Main Activity", username);
                     Log.i("Main Activity", password);
-
                     login(username, password);
                 }
             });
