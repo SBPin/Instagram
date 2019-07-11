@@ -99,6 +99,7 @@ public class PostsFragment extends Fragment {
                     e.printStackTrace();
                     return;
                 }
+
                 mPosts.addAll(posts);
                 adapter.notifyDataSetChanged(); //  MUST NOTIFY ADAPTER
 

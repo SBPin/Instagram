@@ -7,19 +7,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
 import com.example.instagram.fragments.ComposeFragment;
 import com.example.instagram.fragments.PostsFragment;
 import com.example.instagram.fragments.ProfileFragment;
-import java.io.File;
 
 public class HomeActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
-    public final String APP_TAG = "HomeActivity";
-    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    public String photoFileName = "photo.jpg";
-    File photoFile;
+    // public final String APP_TAG = "HomeActivity";
+    //  public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    //  public String photoFileName = "photo.jpg";
+    //  File photoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

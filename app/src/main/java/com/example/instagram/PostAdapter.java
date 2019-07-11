@@ -10,10 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.example.instagram.model.Post;
 import com.parse.ParseFile;
+import com.parse.SaveCallback;
+
 import org.parceler.Parcels;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -78,7 +82,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
                     int curNumLikes = post.getNumLikes();
                     post.setNumLikes(curNumLikes+1);
-                    //  Increment like count
+
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(com.parse.ParseException e) {
+                            if(e != null){
+                                e.printStackTrace();
+                                return;
+                            }
+                        }
+                    });
 
                     notifyDataSetChanged();
                 }

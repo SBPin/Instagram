@@ -38,13 +38,13 @@ public class PostDetailsActivity extends AppCompatActivity {
 
         post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
 
-        ParseFile imageToLoad = post.getImage();
         tvDescription.setText(post.getDescription());
         tvUser.setText(post.getUser().getUsername());
         tvCreatedAt.setText(getRelativeTimeAgo(String.valueOf(post.getCreatedAt())));
         tvNumLikes.setText(Integer.toString(post.getNumLikes())+" likes");
 
         //  displays image
+        ParseFile imageToLoad = post.getImage();
         Glide.with(this).load(imageToLoad.getUrl()).into(ivImage);
     }
 
@@ -61,7 +61,6 @@ public class PostDetailsActivity extends AppCompatActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return relativeDate;
     }
 
