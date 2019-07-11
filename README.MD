@@ -60,7 +60,7 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## Notes
 
-I encountered a massive setback in getting my application to post. For the first three days of working on the app, my posts showed up in my Parse Dashboard, but did not display in my my feeds. However, after a few hours of debugging, I was able to determine that I had innappropriately added a log statement that called a user that had not yet been initialized. 
+I encountered a massive setback in getting my application to post. For the first three days of working on the app, my posts showed up in my Parse Dashboard, but did not display in my my feeds. However, after a few hours of debugging, I was able to determine that I had innappropriately added a log statement that called a user that had not yet been initialized.
 
 ## License
 
