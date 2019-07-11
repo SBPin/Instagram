@@ -19,7 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PostDetailsActivity"></activity>
+        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".PostDetailsActivity" />
         <activity
             android:name=".HomeActivity"
             android:label="@string/title_activity_home"

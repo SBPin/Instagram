@@ -13,7 +13,6 @@ import android.widget.EditText;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 /*
 LOGIN ACTIVITY
@@ -36,11 +35,11 @@ public class MainActivity extends AppCompatActivity {
            startActivity(i);
 
         } else {
-            // displayes the signup or login screen
+            // displays the signup or login screen
             setContentView(R.layout.activity_main);
 
             etUsernameInput = findViewById(R.id.ivImageView);
-            etPasswordInput = findViewById(R.id.password);
+            etPasswordInput = findViewById(R.id.phoneNumber);
             loginButton = findViewById(R.id.loginButton);
             loginButton.setText("Login");
             signUpButton = findViewById(R.id.signUp);
@@ -60,27 +59,9 @@ public class MainActivity extends AppCompatActivity {
             signUpButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    ParseUser user = new ParseUser();
-
-                    final String username = etUsernameInput.getText().toString();
-                    final String password = etPasswordInput.getText().toString();
-
-                    user.setUsername(username);
-                    user.setPassword(password);
-                    //user.setEmail("email@example.com");
-                    //user.put("phone", "650-253-0000"); // TODO : DO YOU NEED THESE?
-
-                    user.signUpInBackground(new SignUpCallback() {
-                        public void done(ParseException e) {
-                            if (e == null) {
-                                login(username, password);
-                            } else {
-                                Log.d("Main Activity", "Sign up failed");
-                            }
-                        }
-                    });
-
+                    final Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
+                    startActivity(intent);
+                    //finish();
                 }
             });
         }
