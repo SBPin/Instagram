@@ -22,7 +22,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     TextView tvDescription;
     TextView tvUser;
     TextView tvCreatedAt;
-    TextView numLikes;
+    TextView tvNumLikes;
     ImageView ivImage;
 
     @Override
@@ -33,6 +33,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         tvDescription = (TextView) findViewById(R.id.post_description);
         tvUser = (TextView) findViewById(R.id.username);
         tvCreatedAt = (TextView) findViewById(R.id.createdAt);
+        tvNumLikes = (TextView) findViewById(R.id.numLikes);
         ivImage = (ImageView) findViewById(R.id.ivImageView);
 
         post = (Post) Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
@@ -41,6 +42,9 @@ public class PostDetailsActivity extends AppCompatActivity {
         tvDescription.setText(post.getDescription());
         tvUser.setText(post.getUser().getUsername());
         tvCreatedAt.setText(getRelativeTimeAgo(String.valueOf(post.getCreatedAt())));
+        tvNumLikes.setText(Integer.toString(post.getNumLikes())+" likes");
+
+        //  displays image
         Glide.with(this).load(imageToLoad.getUrl()).into(ivImage);
     }
 

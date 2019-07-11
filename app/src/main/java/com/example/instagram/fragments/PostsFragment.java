@@ -56,8 +56,7 @@ public class PostsFragment extends Fragment {
         scrollListener = new EndlessRecyclerViewScrollListener(new LinearLayoutManager(getContext())) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                // Triggered only when new data needs to be appended to the list
-                // Add whatever code is needed to append new items to the bottom of the list
+                // loads the next 10 posts once the bottom is reached
                 limit = limit+10;
                 queryPosts();
             }
@@ -82,8 +81,7 @@ public class PostsFragment extends Fragment {
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-    queryPosts();
-
+        queryPosts();
     }
 
     //  protected gives us the ability to override in other classes

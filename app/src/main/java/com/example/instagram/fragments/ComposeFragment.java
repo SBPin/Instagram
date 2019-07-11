@@ -22,14 +22,12 @@ import android.widget.Toast;
 
 import com.example.instagram.R;
 import com.example.instagram.model.Post;
-import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.File;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -78,6 +76,7 @@ public class ComposeFragment extends Fragment {
             }
         });
 
+        //  launches camera to retrieve new image File
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,12 +85,13 @@ public class ComposeFragment extends Fragment {
         });
     }
 
+    //  creates and saves a new post to Parse Dashboard
     private void savePost(String description, ParseUser user, File photoFile) {
         Post post = new Post();
         post.setDescription(description);
         post.setUser(user);
         post.setNumLikes(0);
-        post.setImage(new ParseFile(photoFile));
+        post.setImage(new ParseFile(photoFile)); // sets image to photo just taken
         post.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -103,28 +103,6 @@ public class ComposeFragment extends Fragment {
                 Log.e(APP_TAG, "Success!");
                 descriptionInput.setText("");
                 ivPostImage.setImageResource(0);
-            }
-        });
-    }
-
-    private void loadTopPosts() {
-        final Post.Query postQuery = new Post.Query();
-        postQuery.getTop().withUser();
-
-        postQuery.getQuery(Post.class).findInBackground(new FindCallback<Post>() {
-
-            @Override
-            public void done(List<Post> objects, ParseException e) {
-                if(e == null){
-                    for(int i = 0; i < objects.size(); i++){
-                        Log.d("ComposeFragment", "Post["+i+"] = "
-                                + objects.get(i).getDescription()
-                                + "\nusername = "+objects.get(i).getUser().getUsername()
-                        );
-                    }
-                } else {
-                    e.printStackTrace();
-                }
             }
         });
     }
