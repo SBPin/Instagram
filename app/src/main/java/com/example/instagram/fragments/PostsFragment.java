@@ -28,6 +28,8 @@ public class PostsFragment extends Fragment {
     protected PostAdapter adapter;
     protected List<Post> mPosts;
     protected SwipeRefreshLayout swipeContainer;
+    private EndlessRecyclerViewScrollListener scrollListener;
+    private int limit = 20;
 
     public final String APP_TAG = "PostsFragment";
 
@@ -50,6 +52,18 @@ public class PostsFragment extends Fragment {
         rvPosts.setAdapter(adapter);
         //  set the layout manager on the recycler view
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        scrollListener = new EndlessRecyclerViewScrollListener(new LinearLayoutManager(getContext())) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                limit = limit+10;
+                queryPosts();
+            }
+        };
+
+        rvPosts.addOnScrollListener(scrollListener);
 
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -76,7 +90,7 @@ public class PostsFragment extends Fragment {
     protected void queryPosts() {
         ParseQuery<Post> postQuery = new ParseQuery<Post>(Post.class);
         postQuery.include(Post.KEY_USER);
-        postQuery.setLimit(20); //  Last 20 posts
+        postQuery.setLimit(limit); //  Last 20 posts
         postQuery.addDescendingOrder(Post.KEY_CREATED_AT);  // Most recent
         postQuery.findInBackground(new FindCallback<Post>() {
 

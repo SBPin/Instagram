@@ -81,13 +81,7 @@ public class ComposeFragment extends Fragment {
         createPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 onLaunchCamera(v);
-                final String description = descriptionInput.getText().toString();
-                final ParseUser user = ParseUser.getCurrentUser();
-                final ParseFile parseFile = new ParseFile(photoFile);
-
-                createPost(description, parseFile, user);
             }
         });
     }
@@ -109,26 +103,6 @@ public class ComposeFragment extends Fragment {
                 Log.e(APP_TAG, "Success!");
                 descriptionInput.setText("");
                 ivPostImage.setImageResource(0);
-            }
-        });
-    }
-
-    private void createPost(String description, ParseFile imageFile, ParseUser user) {
-
-        final Post newPost = new Post();
-        newPost.setDescription(description);
-        newPost.setImage(imageFile);
-        newPost.setUser(user);
-        newPost.setNumLikes(0);
-
-        newPost.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null ) {
-                    Log.d("ComposeFragment", "Create post success!");
-                } else {
-                    e.printStackTrace();
-                }
             }
         });
     }
