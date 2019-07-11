@@ -1,5 +1,7 @@
 package com.example.instagram.model;
 
+import android.os.Parcelable;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -7,11 +9,13 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 @ParseClassName("Post")
-public class Post extends ParseObject {
+public class Post extends ParseObject implements Parcelable {
     public static final String KEY_DESCRIPTION = "Description";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_USER = "user";
     public static final String KEY_CREATED_AT = "createdAt";
+
+    public Post(){}
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);

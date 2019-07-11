@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             // displayes the signup or login screen
             setContentView(R.layout.activity_main);
 
-            etUsernameInput = findViewById(R.id.username);
+            etUsernameInput = findViewById(R.id.ivImageView);
             etPasswordInput = findViewById(R.id.password);
             loginButton = findViewById(R.id.loginButton);
             loginButton.setText("Login");

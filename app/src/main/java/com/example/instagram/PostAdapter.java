@@ -1,6 +1,7 @@
 package com.example.instagram;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.instagram.model.Post;
 import com.parse.ParseFile;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -44,7 +47,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView tvHandle;
         private ImageView ivImage;
@@ -55,6 +58,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvHandle = itemView.findViewById(R.id.tvHandle);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            int position = getAdapterPosition();
+            //  checks pos. is valid
+            if (position != RecyclerView.NO_POSITION) {
+                //  get movie at the position
+                Post post = posts.get(position);
+                //  create intent for new activity
+                Intent intent = new Intent (context, PostDetailsActivity.class);
+                //  serialize the movie using parceler, use its short name as a key
+                intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                //  show activity
+                context.startActivity(intent);
+            }
+
         }
 
         public void bind(Post post){
