@@ -51,15 +51,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return posts.size();
     }
 
+    public void clear() {
+        posts.clear();
+        notifyDataSetChanged();
+    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public static final String KEY_PHOTO = "profileImage";
 
         private ImageView ivImage;
         private ImageView ivHeart;
+        private ImageView profilePic;
         private TextView tvHandle;
-        private TextView  tvDescription;
-        private TextView  tvTimeCreated;
-        private TextView  numLikes;
+        private TextView tvDescription;
+        private TextView tvTimeCreated;
+        private TextView numLikes;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,6 +76,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvTimeCreated = itemView.findViewById(R.id.timeCreated);
             numLikes = itemView.findViewById(R.id.numLikes);
             ivHeart = itemView.findViewById(R.id.likeImage);
+            profilePic = itemView.findViewById(R.id.profileImage);
             itemView.setOnClickListener(this);
 
             ivHeart.setOnClickListener(new View.OnClickListener() {
@@ -81,12 +89,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     Post post = posts.get(position);
 
                     int curNumLikes = post.getNumLikes();
-                    post.setNumLikes(curNumLikes+1);
+                    post.setNumLikes(curNumLikes + 1);
 
                     post.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(com.parse.ParseException e) {
-                            if(e != null){
+                            if (e != null) {
                                 e.printStackTrace();
                                 return;
                             }
@@ -106,7 +114,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 //  get movie at the position
                 Post post = posts.get(position);
                 //  create intent for new activity
-                Intent intent = new Intent (context, PostDetailsActivity.class);
+                Intent intent = new Intent(context, PostDetailsActivity.class);
                 //  serialize the movie using parceler, use its short name as a key
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
                 //  show activity
@@ -114,28 +122,27 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
         }
 
-        public void bind(Post post){
+        public void bind(Post post) {
 
             tvHandle.setText(post.getUser().getUsername());
             ParseFile image = post.getImage();
             if (image != null) {
                 Glide.with(context).load(image.getUrl()).into(ivImage);
+            } else {
+                ivImage.setImageBitmap(null);
             }
             tvDescription.setText(post.getDescription());
             tvTimeCreated.setText(getRelativeTimeAgo(String.valueOf(post.getCreatedAt())));
             numLikes.setText((Integer.toString(post.getNumLikes())));
+
+            ParseFile profile = post.getUser().getParseFile(KEY_PHOTO);
+            if (profile != null) {
+                Glide.with(context).load(profile.getUrl()).into(profilePic);
+            } else {
+                profilePic.setImageBitmap(null);
+            }
+
         }
-    }
-
-    public void clear() {
-        posts.clear();
-        notifyDataSetChanged();
-    }
-
-    // Add a list of items -- change to type used
-    public void addAll(List<Post> list) {
-        posts.addAll(list);
-        notifyDataSetChanged();
     }
 
     public String getRelativeTimeAgo(String rawJsonDate) {
@@ -154,5 +161,4 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         return relativeDate;
     }
-
 }

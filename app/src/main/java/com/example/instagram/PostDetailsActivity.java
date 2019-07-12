@@ -41,7 +41,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         tvDescription.setText(post.getDescription());
         tvUser.setText(post.getUser().getUsername());
         tvCreatedAt.setText(getRelativeTimeAgo(String.valueOf(post.getCreatedAt())));
-        tvNumLikes.setText(Integer.toString(post.getNumLikes())+" likes");
+        tvNumLikes.setText(Integer.toString(post.getNumLikes()) + " likes");
 
         //  displays image
         ParseFile imageToLoad = post.getImage();

@@ -11,14 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.instagram.PostAdapter;
 import com.example.instagram.R;
 import com.example.instagram.model.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +61,6 @@ public class PostsFragment extends Fragment {
         };
 
         rvPosts.addOnScrollListener(scrollListener);
-
         swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -105,7 +102,6 @@ public class PostsFragment extends Fragment {
 
                 for (int i = 0; i<posts.size(); i++){
                     Post post = posts.get(i);
-                    //Log.d(APP_TAG, "POST: "+post.getDescription()+" username: "+post.getUser().getUsername());
                 }
             }
         });

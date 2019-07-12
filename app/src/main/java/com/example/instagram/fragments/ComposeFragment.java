@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.example.instagram.R;
 import com.example.instagram.model.Post;
 import com.parse.ParseException;
@@ -136,7 +135,6 @@ public class ComposeFragment extends Fragment {
 
         // Return the file target for the photo based on filename
         File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
-
         return file;
     }
 

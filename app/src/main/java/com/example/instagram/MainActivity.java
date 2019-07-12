@@ -14,9 +14,6 @@ import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-/*
-LOGIN ACTIVITY
- */
 public class MainActivity extends AppCompatActivity {
 
     EditText etUsernameInput;
@@ -31,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser != null) {
             //  continue to next activity if user previously logged in
-           Intent i = new Intent(MainActivity.this, HomeActivity.class);
-           startActivity(i);
+            Intent i = new Intent(MainActivity.this, HomeActivity.class);
+            startActivity(i);
 
         } else {
             // displays the signup or login screen
@@ -61,13 +58,12 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     final Intent intent = new Intent(MainActivity.this, SignUpActivity.class);
                     startActivity(intent);
-                    //finish();
                 }
             });
         }
     }
 
-    private void login(String username, String password){
+    private void login(String username, String password) {
         hideKeyboard(this);
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
@@ -77,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
                     final Intent intent = new Intent(MainActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
-                }   else {
+                } else {
                     Log.e("LoginActivity", "Login failure");
                     e.printStackTrace();
                 }

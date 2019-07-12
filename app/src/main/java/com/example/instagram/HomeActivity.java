@@ -16,11 +16,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
 
-    // public final String APP_TAG = "HomeActivity";
-    //  public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    //  public String photoFileName = "photo.jpg";
-    //  File photoFile;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

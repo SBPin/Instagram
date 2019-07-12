@@ -28,7 +28,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        etUsernameInput = (EditText) findViewById(R.id.username); //TODO CAST REST AS EDIT TEXT
+        etUsernameInput = (EditText) findViewById(R.id.username);
         etPasswordInput = (EditText) findViewById(R.id.password);
         etEmail = (EditText) findViewById(R.id.emailAddress);
         etPhoneNumber = (EditText) findViewById(R.id.phoneNumber);
@@ -50,7 +50,7 @@ public class SignUpActivity extends AppCompatActivity {
                 user.setUsername(username);
                 user.setPassword(password);
                 user.setEmail(email);
-                user.put("handle", phoneNum); // TODO : DO YOU NEED THESE?
+                user.put("handle", phoneNum);
 
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
