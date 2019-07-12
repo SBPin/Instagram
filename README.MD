@@ -41,7 +41,7 @@ The following **additional** features are implemented:
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
 1. In the end, I realized that I had some difficulty with RecyclerViews conceptually. I did not realize how I should be clearing/resetting some things until the very end, when my app was crashing. This was an important lesson to learn, but I wish I had learned it before the last hour.
-2.
+2. I also had some more issues with my app crashing after my first submission. I tried debugging and looking through all of the affected classes, and it boiled down to my an issue with accessing a post's associated username when a user was null. However, after looking through my database I realized that the problem was not within my code, but rather that when I had deleted a user, their corresponding posts had not deleted. This meant that some posts that were being loaded did not have assocaited users, and were crashing my app. This made me realize that I needed to check all aspects of my app for bugs, and not just assume that all of my problems are contained within Android Studio.
 
 ## Video Walkthrough
 
