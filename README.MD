@@ -40,7 +40,7 @@ The following **additional** features are implemented:
 
 Please list two areas of the assignment you'd like to **discuss further with your peers** during the next class (examples include better ways to implement something, how to extend your app in certain ways, etc):
 
-1.
+1. In the end, I realized that I had some difficulty with RecyclerViews conceptually. I did not realize how I should be clearing/resetting some things until the very end, when my app was crashing. This was an important lesson to learn, but I wish I had learned it before the last hour.
 2.
 
 ## Video Walkthrough
@@ -60,11 +60,12 @@ List an 3rd party libraries, icons, graphics, or other assets you used in your a
 
 ## Notes
 
-I encountered a massive setback in getting my application to post. For the first three days of working on the app, my posts showed up in my Parse Dashboard, but did not display in my my feeds. However, after a few hours of debugging, I was able to determine that I had innappropriately added a log statement that called a user that had not yet been initialized.
+I encountered a massive setback in getting my application to post. For the first three days of working on the app, my posts showed up in my Parse Dashboard, but did not display in my my feeds. However, after a few hours of debugging, I was able to determine that I had innappropriately added a log statement that called on a user that had not yet been initialized. Up until now, I did not think or consider that a log statement (something used for debugging) could be causing my app to crash.
 
+Overall, I really enjoyed the project ebcause I was able to implement much of it on my own. I liked being able to generate a databse, and add more columns/attributes as I went along, to accommodate for the additional features within my app.
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2019 Sabrina Pin
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
